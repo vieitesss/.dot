@@ -1,24 +1,19 @@
-{ pkgs, inputs, self, ... }:
-let
-  sharedPackages = import ./packages/shared.nix {
-    inherit pkgs inputs;
-  };
-
-  macosPackages = import ./packages/macos.nix {
-    inherit pkgs;
-  };
-in
+{ self, username, homeDirectory, ... }:
 {
+  imports = [ ./auto-upgrade.nix ];
+
   nix.settings.experimental-features = "nix-command flakes";
 
-  nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config.allowUnfree = true;
 
-  system.primaryUser = "vieitesprefapp";
+  users.users.${username} = {
+    name = username;
+    home = homeDirectory;
+  };
+
+  system.primaryUser = username;
   system.stateVersion = 6;
   system.configurationRevision = self.rev or self.dirtyRev or null;
-
-  environment.systemPackages = sharedPackages ++ macosPackages;
 
   homebrew = {
     enable = true;
