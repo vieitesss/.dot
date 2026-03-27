@@ -24,6 +24,7 @@
 
     casks = [
       "aldente"
+      "biscuit"
       "brave-browser"
       "nikitabobko/tap/aerospace"
       "codexbar"
@@ -37,7 +38,7 @@
     ];
 
     onActivation = {
-      cleanup = "none";
+      cleanup = "zap";
       autoUpdate = true;
       upgrade = true;
     };

@@ -5,7 +5,7 @@
     import ./packages/shared.nix {
       inherit pkgs inputs;
     }
-    ++ lib.optionals pkgs.stdenv.isDarwin (import ./packages/macos.nix {
+    ++ lib.optionals pkgs.stdenv.isDarwin (import ./packages/darwin.nix {
       inherit pkgs;
     });
 
