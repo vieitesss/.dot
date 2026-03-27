@@ -27,7 +27,7 @@
       "biscuit"
       "brave-browser"
       "nikitabobko/tap/aerospace"
-      "codexbar"
+      "steipete/tap/codexbar"
       "cmux"
       "hammerspoon"
       "karabiner-elements"
