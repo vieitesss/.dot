@@ -18,6 +18,11 @@
   homebrew = {
     enable = true;
 
+    taps = [
+      "nikitabobko/tap"
+      "steipete/tap"
+    ];
+
     brews = [
       "mole"
     ];
