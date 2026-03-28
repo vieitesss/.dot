@@ -118,6 +118,7 @@
             # as options.
             home-manager.extraSpecialArgs = {
               inherit inputs;
+              inherit (host) flakeDirectory;
             };
             home-manager.users.${host.username} = mkHomeModule host;
           }
@@ -125,9 +126,13 @@
       };
     in {
       # Export only Darwin hosts as nix-darwin configurations.
-      darwinConfigurations = lib.mapAttrs mkDarwin (lib.filterAttrs (_: host: isDarwin host) hosts);
+      darwinConfigurations = lib.mapAttrs
+        mkDarwin
+        (lib.filterAttrs (_: host: isDarwin host) hosts);
 
       # Export only non-Darwin hosts as standalone Home Manager configs.
-      homeConfigurations = lib.mapAttrs mkHome (lib.filterAttrs (_: host: !isDarwin host) hosts);
+      homeConfigurations = lib.mapAttrs
+        mkHome
+        (lib.filterAttrs (_: host: !isDarwin host) hosts);
     };
 }

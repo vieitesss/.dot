@@ -1,13 +1,18 @@
 { lib, pkgs, inputs, ... }:
 
 {
+  imports = [ ./dotfiles.nix ];
+
   home.packages =
     import ./packages/shared.nix {
       inherit pkgs inputs;
     }
+    # concatenation, only if isDarwin
     ++ lib.optionals pkgs.stdenv.isDarwin (import ./packages/darwin.nix {
       inherit pkgs;
     });
+
+  xdg.enable = true;
 
   targets.genericLinux.enable = pkgs.stdenv.isLinux;
 
