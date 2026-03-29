@@ -1,4 +1,4 @@
-{ config, lib, pkgs, flakeDirectory, hostName, ... }:
+{ config, lib, pkgs, flakeDirectory, hostName, username, ... }:
 
 let
   flakeDir = flakeDirectory;
@@ -9,6 +9,14 @@ let
 
     flake_dir=${lib.escapeShellArg flakeDir}
     flake_ref=${lib.escapeShellArg flakeRef}
+
+    # Update flake inputs as the regular user to preserve flake.lock ownership.
+    # GIT_CONFIG_COUNT/KEY/VALUE mark the flake dir as a safe git directory so
+    # that nix can read it; GIT_CONFIG_NOSYSTEM + the custom safe.directory
+    # entry prevent git from refusing to write the lock file due to ownership.
+    sudo -u ${lib.escapeShellArg username} \
+      HOME=${lib.escapeShellArg "/Users/${username}"} \
+      ${pkgs.nix}/bin/nix flake update --flake "$flake_dir"
 
     export HOME="/var/root"
     export GIT_CONFIG_COUNT=1
